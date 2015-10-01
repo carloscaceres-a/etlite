@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<source>
+		<fff_document path="$input_file"/>
+	</source>
+	<target>
+		<database>
+			<host>localhost</host>
+			<user>user</user>
+			<pass>pass</pass>
+			<dbname>dbname</dbname>
+			<default_table>espira</default_table>
+			<keys>id</keys>
+			<validation>activo = TRUE</validation>
+		</database>
+	</target>
+	
+	<fields>
+		<field>
+			<source>
+				<fixed from="0" to="8"/>
+				<expects>^\d\d:\d\d:\d\d$</expects>
+			</source>
+			<transformations>
+				<date_sufix format=" %d-%m-%Y"/>
+			</transformations>
+			<target>
+				<column date_format="%H:%i:%S %d-%m-%Y">actualizado</column>
+			</target>
+		</field>
+	
+	
+		<field>
+			<source>
+				<fixed from="14" to="22"/>
+				<expects>^\w\d\d\d\d\d\d\w$</expects>
+			</source>
+			<transformations>
+				<dictionary replace="all">
+					<database>
+						<host>localhost</host>
+						<user>itgr_user</user>
+						<pass>itgruser0112</pass>
+						<dbname>itgr</dbname>
+						<sql_query>SELECT sc_id AS map_from, id AS map_to FROM espira</sql_query>
+					</database>
+				</dictionary>
+			</transformations>
+			<target>
+				<column>id</column>
+			</target>
+		</field>
+		
+		<field>
+			<source>
+				<fixed from="40" to="43"/>
+				<expects>^\s*-?\d*\s*$</expects>
+			</source>
+			<transformations>
+				<trim side="both"/>
+				<dictionary if="equals" replace="all">
+					<database>
+						<host>localhost</host>
+						<user>itgr_user</user>
+						<pass>itgruser0112</pass>
+						<dbname>itgr</dbname>
+						<sql_query><![CDATA[SELECT meta_description AS map_from, id AS map_to FROM status WHERE id > 100 AND id <= 200]]></sql_query>
+					</database>
+				</dictionary>
+			</transformations>
+			<target>
+				<column>status_id</column>
+			</target>
+		</field>
+
+		<field>
+			<source>
+				<fixed from="29" to="32"/>
+				<expects>^\s*-?\d*\s*$</expects>
+			</source>
+			<target>
+				<column>status_attrs</column>
+			</target>
+		</field>
+
+	</fields>
+</map>

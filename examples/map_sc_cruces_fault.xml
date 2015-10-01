@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<source>
+		<fff_document path="$input_file"/>
+	</source>
+	<target>
+		<database>
+			<host>localhost</host>
+			<user>user</user>
+			<pass>pass</pass>
+			<dbname>dbname</dbname>
+			<default_table>cruce</default_table>
+			<keys>sc_id</keys>
+		</database>
+	</target>
+	
+	<fields>
+		<field>
+			<source>
+				<fixed from="3" to="21"/>
+				<expects>^\d\d:\d\d:\d\d \d\d-\w\w\w-\d\d$</expects>
+				<mode>hold</mode>
+				<required>no</required>
+			</source>
+			<target>
+				<column date_format="%H:%i:%S %d-%b-%y">actualizado</column>
+			</target>
+		</field>
+		
+		<field>
+			<source>
+				<fixed from="19" to="26"/>
+				<expects>^J[\d*]</expects>
+			</source>
+			<target>
+				<column>sc_id</column>
+			</target>
+		</field>
+
+		<field>
+			<source>
+				<fixed from="47" to="51"/>
+				<expects>^\d*</expects>
+			</source>
+			<transformations>
+				<dictionary if="equals" replace="all">
+					<database>
+						<host>localhost</host>
+						<user>itgr_user</user>
+						<pass>itgruser0112</pass>
+						<dbname>itgr</dbname>
+						<sql_query><![CDATA[SELECT meta_description AS map_from, id AS map_to FROM status WHERE id > 0 AND id <= 100]]></sql_query>
+					</database>
+				</dictionary>
+			</transformations>
+			<target>
+				<column>status_id</column>
+			</target>
+		</field>
+
+		<field>
+			<source>
+				<fixed from="53"/>
+			</source>
+			<transformations>
+				<trim side="both"/>
+			</transformations>
+			<target>
+				<column>status_attrs</column>
+			</target>
+		</field>
+
+	</fields>
+</map>
