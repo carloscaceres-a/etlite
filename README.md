@@ -1,15 +1,14 @@
-
-etlite
-====
+#etlite
 
 Etl es la sigla de Extraction-Transformation-and-Load. Este software tiene como objetivo el procesar archivos de texto con formato fijo y actualizar una tabla en la base de datos de la forma más liviana posible, basado en un "mapa" con un origen y un destino.
 
 Ejemplo de mapa:
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Tag base -->
 <map>
-	<!-- Se requiere UN source, el cual determina los tipos de campo que se soportan en fields/field/source/ -->
+    <!-- Se requiere UN source, el cual determina los tipos de campo que se soportan en fields/field/source/ -->
 	<source>
 		<!-- 
 		Para cualquier source es obligatorio configurar un path, el cual puede ser una ruta estática o una variable pasada por línea de comando.
@@ -114,3 +113,4 @@ Ejemplo de mapa:
 
 	</fields>
 </map>
+```
