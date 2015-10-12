@@ -1,25 +1,23 @@
 #etlite
 
-Etl es la sigla de Extraction-Transformation-and-Load. Este software tiene como objetivo el procesar archivos de texto con formato fijo y actualizar una tabla en la base de datos de la forma más liviana posible, basado en un "mapa" con un origen y un destino.
+Etl stands for Extraction-Transformation-and-Load. This software has as purpose to process fixed format text files and update a database table as lightweight and fast as possible, based on a simple "map" with a source, a target and transformations between both.
 
-Ejemplo de mapa:
+Example:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Tag base -->
 <map>
-    <!-- Se requiere UN source, el cual determina los tipos de campo que se soportan en fields/field/source/ -->
+    <!-- ONE source required, this defines what field kinds are supported in fields/field/source/-->
 	<source>
-		<!-- 
-		Para cualquier source es obligatorio configurar un path, el cual puede ser una ruta estática o una variable pasada por línea de comando.
-		Cuando el path comienza con "$", el etl espera un parámetro con el nombre a continuación de tal símbolo, por ejemplo, el path "$foobar" indica que en la línea de comando se debe pasar como argumento el parámetro "-foobar /ruta/al/archivo"
+		<!-- For any source is required set a path wich can be a static path or a command line passed variable. When the path starts with "$", etlite expects a param named like that path (without the dollar sign); for example, a path "$foobar" says that command line invocation must pass "-foobar /path/to/file"
 		-->
 		
-		<!-- Si el source es un fixed-file-format o fff, el tipo de campo soportado es "fixed". Este tipo de source se usa para archivos de ancho fijo -->
+		<!-- If source is a fixed-file-format or fff, the field type supported is "fixed". This kind of source is useful for well known width files -->
 		<fff_document path="$input_file"/>
 
-		<!-- Si el source es un cardfile_document, el tipo de campo soportado es "floating_field". Este source es útil cuando la entrada es una "ficha", con un encabezado de varias líneas y diferentes campos por cada línea, con una sección de detalle con columnas de ancho fijo -->
-		<fff_document path="$input_file"/>
+		<!-- If source is a cardfile_document, the field type supported is "floating_field". This source is useful when input is like a card, with a several lines header and different fields for each line, and a detail section with fixed width columns -->
+		<cardfile_document path="$input_file"/>
 	</source>
 
 	<!-- El target sólo puede ser "database". En éste se configura la conexión, la tabla de destino y la llave por la que se actualiza -->
